@@ -1,0 +1,18 @@
+/*
+  # Evita que el sitio sea embebido en iframes externos (Previene Clickjacking)
+  X-Frame-Options: DENY
+
+  # Evita que el navegador adivine el tipo de archivo (Previene MIME-confusion)
+  X-Content-Type-Options: nosniff
+
+  # Protege la información de referencia al navegar hacia enlaces externos
+  Referrer-Policy: strict-origin-when-cross-origin
+
+  # Desactiva APIs de hardware innecesarias
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()
+
+  # Forzar uso exclusivo de HTTPS (HSTS)
+  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+
+  # Política de seguridad de contenido básica para sitio estático
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self'; frame-ancestors 'none';

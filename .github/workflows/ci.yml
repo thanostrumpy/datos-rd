@@ -1,0 +1,34 @@
+name: Integración Continua (CI)
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  verificar-compilacion:
+    name: Validar compilación estática
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clonar repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Deshabilitar telemetría de Astro
+        run: npx astro telemetry disable
+
+      - name: Compilar sitio estático
+        run: npm run build
+
+      - name: Auditar integridad de enlaces internos (0 rotos)
+        run: npm run check:links

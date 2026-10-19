@@ -1,0 +1,78 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Newsletter from '../components/Newsletter.astro';
+---
+
+<BaseLayout
+  title="Sobre el Proyecto — Datos RD"
+  description="Conoce la misión, los valores y el equipo detrás de Datos RD, la iniciativa independiente de periodismo de datos en República Dominicana."
+>
+  <div class="pagina-cabecera">
+    <div class="container prose-container">
+      <span class="badge">Nuestra Misión</span>
+      <h1 class="titulo-pagina">Sobre Datos RD</h1>
+      <p class="bajada-pagina">
+        Una plataforma independiente de análisis cuantitativo y periodismo de datos concebida para que la ciudadanía dominicana comprenda la realidad económica y social a través de números verificables.
+      </p>
+    </div>
+  </div>
+
+  <div class="container prose-container">
+    <div class="article-body">
+      <h2>¿Por qué nace Datos RD?</h2>
+      <p>
+        El flujo diario de noticias suele estar saturado de declaraciones políticas, adjetivos y titulares sensacionalistas. En contraste, las decisiones que más impactan la vida de los dominicanos —desde el costo de la canasta familiar y la depreciación del peso, hasta el servicio de la deuda pública y la inversión en salud o educación— se expresan en números.
+      </p>
+      <p>
+        <strong>Datos RD</strong> nace para cerrar esa brecha. No somos un agregador de noticias ni un medio de opinión generalista: cada entrega aporta un <strong>análisis original</strong>, gráficos limpios y descargables, y contexto histórico contrastado.
+      </p>
+
+      <h2>Nuestra audiencia</h2>
+      <p>
+        Este proyecto está diseñado para todo ciudadano, estudiante, profesional, economista o tomador de decisiones en República Dominicana que desee ir más allá del titular y examinar la evidencia empírica con lenguaje claro, sin tecnicismos innecesarios ni sesgo ideológico.
+      </p>
+
+      <h2>Modelo de sostenibilidad y costo cero</h2>
+      <p>
+        Para garantizar la máxima independencia editorial y no depender de pautas publicitarias gubernamentales ni compromisos corporativos:
+      </p>
+      <ul>
+        <li><strong>Infraestructura estática de costo cero:</strong> Construido con tecnologías modernas de generación estática (Astro) y alojado en redes globales gratuitas (Cloudflare Pages / GitHub Pages).</li>
+        <li><strong>Monetización ética por fases:</strong> El sitio no incluye publicidad invasiva. En fases avanzadas se considerarán enlaces de afiliados hacia herramientas técnicas relevantes (siempre señalizados de forma transparente) o redes éticas como AdSense una vez consolidado el tráfico orgánico.</li>
+        <li><strong>Sin costes para el lector:</strong> Todo el contenido y las descargas de datos son de acceso libre y gratuito.</li>
+      </ul>
+
+      <h2>Compromiso con el código y los datos abiertos</h2>
+      <p>
+        Creemos que la credibilidad se demuestra con hechos. Por eso, tanto los conjuntos de datos limpios como los scripts de transformación en Python son de código abierto y pueden ser consultados por cualquiera en nuestro <a href="/datos">catálogo de datos</a>.
+      </p>
+
+      <Newsletter
+        titulo="Acompaña nuestro crecimiento"
+        descripcion="Suscríbete a nuestro boletín para recibir análisis detallados directamente en tu correo cada semana."
+      />
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .pagina-cabecera {
+    padding: 3rem 0 2rem;
+    background-color: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: 2.5rem;
+  }
+
+  .titulo-pagina {
+    font-size: 2.25rem;
+    font-weight: 800;
+    margin: 0.5rem 0 0.75rem;
+    color: var(--color-text);
+  }
+
+  .bajada-pagina {
+    font-size: 1.15rem;
+    color: var(--color-text-muted);
+    line-height: 1.6;
+  }
+</style>

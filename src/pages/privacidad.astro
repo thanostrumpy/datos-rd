@@ -1,0 +1,78 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE_CONFIG } from '../config/site';
+---
+
+<BaseLayout
+  title="Política de Privacidad — Datos RD"
+  description="Conoce nuestra política de tratamiento de datos personales, uso de almacenamiento local y cookies en Datos RD."
+>
+  <div class="pagina-cabecera">
+    <div class="container prose-container">
+      <span class="badge">Legal y Transparencia</span>
+      <h1 class="titulo-pagina">Política de Privacidad</h1>
+      <p class="bajada-pagina">
+        Última actualización: 18 de octubre de 2026. En {SITE_CONFIG.nombre} respetamos tu privacidad y operamos bajo principios de recolección mínima de datos.
+      </p>
+    </div>
+  </div>
+
+  <div class="container prose-container">
+    <div class="article-body">
+      <h2>1. Compromiso general de privacidad</h2>
+      <p>
+        {SITE_CONFIG.nombre} es un portal de periodismo de datos accesible de forma libre sin necesidad de registro ni suministro de datos personales para la lectura o descarga de conjuntos de datos. Cumplimos con las disposiciones de la legislación dominicana aplicable, en particular la Ley No. 172-13 sobre la Protección Integral de los Datos Personales.
+      </p>
+
+      <h2>2. Datos recopilados y finalidad</h2>
+      <p>
+        Únicamente tratamos información en las siguientes circunstancias voluntarias:
+      </p>
+      <ul>
+        <li>
+          <strong>Suscripción al boletín informativo (Newsletter):</strong> Al registrar voluntariamente tu dirección de correo electrónico, este dato se utiliza exclusivamente para remitir los resúmenes y análisis periódicos de {SITE_CONFIG.nombre}. No comercializamos, alquilamos ni transferimos tu correo a terceros para fines publicitarios ajenos. Puedes darte de baja en cualquier momento pulsando el enlace ubicado al pie de cada correo.
+        </li>
+        <li>
+          <strong>Preferencia de visualización (Modo Claro / Modo Oscuro):</strong> Utilizamos el almacenamiento local de tu navegador (<code>localStorage</code>) para recordar tu preferencia visual. Esta información no sale de tu dispositivo y no permite tu identificación personal.
+        </li>
+      </ul>
+
+      <h2>3. Cookies y tecnologías de analítica</h2>
+      <p>
+        Priorizamos soluciones de analítica web sin rastreadores invasivos (como Cloudflare Web Analytics), las cuales recopilan métricas anónimas y agregadas (páginas más visitadas, país de procedencia, tipo de navegador) sin registrar direcciones IP individuales ni utilizar cookies persistentes con fines de elaboración de perfiles cruzados.
+      </p>
+
+      <h2>4. Servicios de terceros y publicidad futura</h2>
+      <p>
+        En fases futuras de desarrollo, {SITE_CONFIG.nombre} podrá integrar plataformas publicitarias reconocidas (como Google AdSense) o redes de afiliados para el sostenimiento financiero del proyecto. Dichos proveedores podrán utilizar cookies o balizas web bajo sus propias políticas de privacidad para mostrar anuncios relevantes. Esta política será actualizada oportunamente cuando dichas integraciones entren en vigor.
+      </p>
+
+      <h2>5. Derechos del titular de los datos</h2>
+      <p>
+        Tienes derecho a solicitar la confirmación, modificación o eliminación definitiva de tu dirección de correo de nuestras listas en cualquier momento remitiendo una solicitud a <a href={`mailto:${SITE_CONFIG.emailPrivacidad}`}>{SITE_CONFIG.emailPrivacidad}</a> o utilizando el formulario en <a href="/contacto">Contacto</a>.
+      </p>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .pagina-cabecera {
+    padding: 3rem 0 2rem;
+    background-color: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: 2.5rem;
+  }
+
+  .titulo-pagina {
+    font-size: 2.25rem;
+    font-weight: 800;
+    margin: 0.5rem 0 0.75rem;
+    color: var(--color-text);
+  }
+
+  .bajada-pagina {
+    font-size: 1.15rem;
+    color: var(--color-text-muted);
+    line-height: 1.6;
+  }
+</style>

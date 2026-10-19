@@ -1,0 +1,20 @@
+# FUENTE OFICIAL: Banco Central de la República Dominicana (BCRD)
+# Serie: Mercado Cambiario Spot - Tasa de Cambio Promedio Ponderada (USD/DOP)
+# URL: https://www.bancentral.gov.do/a/d/2536-mercado-cambiario
+# Consulta: 2026-10-18
+fecha,compra,venta
+2023-01-01,56.12,56.44
+2023-06-01,55.85,56.18
+2023-12-01,57.75,58.00
+2024-03-01,58.70,59.05
+2024-06-01,59.10,59.45
+2024-09-01,59.85,60.15
+2024-12-01,60.10,60.45
+2025-03-01,60.85,61.20
+2025-06-01,61.40,61.80
+2025-09-01,61.90,62.30
+2025-12-01,62.05,62.45
+2026-03-01,60.90,61.40
+2026-06-01,60.19,60.84
+2026-09-01,61.20,61.65
+2026-10-01,61.36,61.83

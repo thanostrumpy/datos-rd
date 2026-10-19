@@ -1,0 +1,109 @@
+---
+import { SITE_CONFIG } from '../config/site';
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  articleDate?: Date;
+  articleModified?: Date;
+  articleAuthor?: string;
+  isArticle?: boolean;
+}
+
+const {
+  title,
+  description,
+  image = '/og-default.png',
+  articleDate,
+  articleModified,
+  articleAuthor = SITE_CONFIG.autor,
+  isArticle = false,
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site || SITE_CONFIG.siteUrl);
+const fullTitle = `${title} | ${SITE_CONFIG.nombre}`;
+
+const jsonLd = isArticle
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'NewsArticle',
+      headline: title,
+      description: description,
+      datePublished: articleDate ? articleDate.toISOString() : undefined,
+      dateModified: articleModified ? articleModified.toISOString() : articleDate ? articleDate.toISOString() : undefined,
+      author: [
+        {
+          '@type': 'Organization',
+          name: articleAuthor,
+          url: Astro.site?.toString(),
+        },
+      ],
+      publisher: {
+        '@type': 'Organization',
+        name: 'Datos RD',
+        url: Astro.site?.toString(),
+      },
+      mainEntityOfPage: {
+        '@type': 'WebPage',
+        '@id': canonicalURL.toString(),
+      },
+    }
+  : {
+      '@context': 'https://schema.org',
+      '@type': 'WebSite',
+      name: 'Datos RD',
+      description: description,
+      url: Astro.site?.toString(),
+    };
+---
+
+<!-- Metadatos globales -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<meta name="generator" content={Astro.generator} />
+
+<!-- URL Canónica -->
+<link rel="canonical" href={canonicalURL} />
+
+<!-- Feed RSS y Sitemap -->
+<link rel="alternate" type="application/rss+xml" title="Datos RD - Feed RSS" href="/rss.xml" />
+<link rel="sitemap" href="/sitemap-index.xml" />
+
+<!-- SEO Primario -->
+<title>{fullTitle}</title>
+<meta name="title" content={fullTitle} />
+<meta name="description" content={description} />
+<meta name="robots" content="index, follow" />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content={isArticle ? 'article' : 'website'} />
+<meta property="og:url" content={canonicalURL} />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={new URL(image, Astro.site)} />
+<meta property="og:site_name" content="Datos RD" />
+<meta property="og:locale" content="es_DO" />
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content={canonicalURL} />
+<meta property="twitter:title" content={fullTitle} />
+<meta property="twitter:description" content={description} />
+<meta property="twitter:image" content={new URL(image, Astro.site)} />
+
+<!-- Datos Estructurados JSON-LD -->
+<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+<!-- Script anti-parpadeo para Modo Claro/Oscuro -->
+<script is:inline>
+  (function () {
+    const stored = localStorage.getItem('theme');
+    if (stored === 'dark' || (!stored && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  })();
+</script>

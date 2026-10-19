@@ -1,0 +1,278 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const conjuntosDatos = [
+  {
+    id: 'tasa-cambio-usd-dop',
+    nombre: 'Tasa de Cambio Spot del Mercado Cambiario (USD/DOP)',
+    categoria: 'Economía y Finanzas',
+    descripcion: 'Serie histórica oficial de cotizaciones de compra, venta y promedio ponderado mensual del mercado cambiario spot de República Dominicana.',
+    fuente: 'Banco Central de la República Dominicana (BCRD)',
+    fuenteUrl: 'https://www.bancentral.gov.do/a/d/2536-mercado-cambiario',
+    frecuencia: 'Mensual / Diaria',
+    formato: 'CSV / JSON',
+    filas: '15 registros (2023 - 2026)',
+    estado: 'Datos oficiales verificados',
+    rutaCsvProcesado: '/datos/tasa_cambio_bcrd.csv',
+    rutaCsvBruto: '/datos/tasa_cambio_bcrd.csv',
+    variables: [
+      { nombre: 'fecha', tipo: 'Fecha (AAAA-MM)', desc: 'Mes y año de corte' },
+      { nombre: 'compra', tipo: 'Numérico (Float)', desc: 'Tasa promedio spot de compra en RD$' },
+      { nombre: 'venta', tipo: 'Numérico (Float)', desc: 'Tasa promedio spot de venta en RD$' },
+      { nombre: 'promedio', tipo: 'Numérico (Float)', desc: 'Promedio aritmético entre compra y venta' },
+      { nombre: 'var_pct', tipo: 'Numérico (Float)', desc: 'Variación porcentual interperíodo (%)' },
+    ],
+  },
+  {
+    id: 'inflacion-ipc-canasta',
+    nombre: 'Índice de Precios al Consumidor (IPC) y Canasta Familiar Nacional',
+    categoria: 'Precios y Canasta Familiar',
+    descripcion: 'Serie de inflación interanual general, inflación subyacente y costo promedio nacional de la canasta de consumo por hogares.',
+    fuente: 'Banco Central de la República Dominicana (BCRD)',
+    fuenteUrl: 'https://www.bancentral.gov.do/a/d/2534-precios',
+    frecuencia: 'Mensual',
+    formato: 'CSV / JSON',
+    filas: '14 registros (2023 - 2026)',
+    estado: 'Datos oficiales verificados',
+    rutaCsvProcesado: '/datos/inflacion_ipc_canasta_bcrd.csv',
+    rutaCsvBruto: '/datos/inflacion_ipc_canasta_bcrd.csv',
+    variables: [
+      { nombre: 'fecha', tipo: 'Fecha (AAAA-MM)', desc: 'Mes y año del corte estadístico' },
+      { nombre: 'inflacion_interanual', tipo: 'Numérico (Float)', desc: 'Variación porcentual respecto a 12 meses atrás (%)' },
+      { nombre: 'inflacion_subyacente', tipo: 'Numérico (Float)', desc: 'Inflación que excluye alimentos volátiles y combustibles (%)' },
+      { nombre: 'costo_canasta', tipo: 'Numérico (Float)', desc: 'Costo mensual promedio de la canasta familiar nacional en RD$' },
+    ],
+  },
+];
+---
+
+<BaseLayout
+  title="Catálogo de Datos Abiertos — Datos RD"
+  description="Descarga gratuita y abierta de los conjuntos de datos limpios y procesados en CSV y JSON utilizados en nuestras investigaciones."
+>
+  <div class="datos-hero">
+    <div class="container">
+      <span class="badge">Datos Abiertos y Reproducibles</span>
+      <h1 class="pagina-titulo">Catálogo de Conjuntos de Datos</h1>
+      <p class="pagina-subtitulo">
+        En Datos RD creemos en la transparencia radical. Todos los datos que sustentan nuestros análisis provienen de fuentes oficiales abiertas (Banco Central de la República Dominicana) y están listos para descarga y auditoría ciudadana.
+      </p>
+    </div>
+  </div>
+
+  <div class="container datos-listado-container">
+    {conjuntosDatos.map((ds) => (
+      <article class="dataset-card" id={ds.id}>
+        <header class="dataset-header">
+          <div>
+            <span class="dataset-categoria">{ds.categoria}</span>
+            <h2 class="dataset-titulo">{ds.nombre}</h2>
+            <p class="dataset-descripcion">{ds.descripcion}</p>
+          </div>
+          <div class="dataset-acciones">
+            <a href={ds.rutaCsvProcesado} download class="btn btn-primary btn-sm">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              Descargar CSV procesado
+            </a>
+            <a href={ds.fuenteUrl} target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">
+              Fuente oficial BCRD
+            </a>
+          </div>
+        </header>
+
+        <div class="dataset-detalles-grid">
+          <div class="detalle-caja">
+            <span class="detalle-label">Fuente oficial</span>
+            <span class="detalle-valor">
+              <a href={ds.fuenteUrl} target="_blank" rel="noopener noreferrer">{ds.fuente}</a>
+            </span>
+          </div>
+          <div class="detalle-caja">
+            <span class="detalle-label">Frecuencia de datos</span>
+            <span class="detalle-valor">{ds.frecuencia}</span>
+          </div>
+          <div class="detalle-caja">
+            <span class="detalle-label">Registros</span>
+            <span class="detalle-valor">{ds.filas}</span>
+          </div>
+          <div class="detalle-caja">
+            <span class="detalle-label">Licencia</span>
+            <span class="detalle-valor">Datos Públicos Abiertos</span>
+          </div>
+        </div>
+
+        <details class="dataset-variables-details">
+          <summary>Ver diccionario de variables y columnas</summary>
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">Columna</th>
+                  <th scope="col">Tipo de dato</th>
+                  <th scope="col">Descripción</th>
+                </tr>
+              </thead>
+              <tbody>
+                {ds.variables.map((v) => (
+                  <tr>
+                    <td><code>{v.nombre}</code></td>
+                    <td>{v.tipo}</td>
+                    <td>{v.desc}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </details>
+      </article>
+    ))}
+
+    <div class="datos-nota-reproducibilidad">
+      <h3>¿Cómo procesamos estos archivos?</h3>
+      <p>
+        Todos los scripts de extracción y limpieza están escritos en Python con la biblioteca <code>pandas</code> y residen en la carpeta <code>/scripts</code> de nuestro repositorio abierto (véase <code>scripts/procesar_datos_bcrd.py</code>). Cualquier ciudadano puede clonar el proyecto y reproducir exactamente los mismos resultados.
+      </p>
+      <a href="/metodologia" class="btn btn-secondary">Conocer nuestra metodología técnica</a>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .datos-hero {
+    padding: 3rem 0 2rem;
+    background-color: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .pagina-titulo {
+    font-size: 2.25rem;
+    font-weight: 800;
+    margin: 0.5rem 0 0.75rem;
+    color: var(--color-text);
+  }
+
+  .pagina-subtitulo {
+    font-size: 1.125rem;
+    color: var(--color-text-muted);
+    max-width: 720px;
+    line-height: 1.55;
+  }
+
+  .datos-listado-container {
+    padding: 3rem 1.25rem 4rem;
+  }
+
+  .dataset-card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .dataset-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+  }
+
+  .dataset-categoria {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-accent);
+  }
+
+  .dataset-titulo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0.25rem 0 0.5rem;
+    color: var(--color-text);
+  }
+
+  .dataset-descripcion {
+    font-size: 0.9375rem;
+    color: var(--color-text-muted);
+    max-width: 650px;
+    line-height: 1.5;
+  }
+
+  .dataset-acciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .btn-sm {
+    padding: 0.45rem 0.85rem;
+    font-size: 0.875rem;
+  }
+
+  .dataset-detalles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    padding: 1.25rem 0;
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: 1.25rem;
+  }
+
+  .detalle-label {
+    display: block;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: var(--color-text-light);
+    font-weight: 600;
+    margin-bottom: 0.2rem;
+  }
+
+  .detalle-valor {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .dataset-variables-details summary {
+    cursor: pointer;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    padding: 0.5rem 0;
+  }
+
+  .dataset-variables-details summary:hover {
+    text-decoration: underline;
+  }
+
+  .datos-nota-reproducibilidad {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    margin-top: 3rem;
+  }
+
+  .datos-nota-reproducibilidad h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--color-text);
+  }
+
+  .datos-nota-reproducibilidad p {
+    font-size: 0.9375rem;
+    color: var(--color-text-muted);
+    line-height: 1.6;
+    margin-bottom: 1.25rem;
+  }
+</style>

@@ -1,0 +1,202 @@
+---
+const anioActual = new Date().getFullYear();
+---
+
+<footer class="sitio-footer">
+  <div class="container footer-container">
+    <!-- Columna 1: Misión e identidad -->
+    <div class="footer-columna">
+      <div class="footer-marca">
+        <span class="logo-barra-sm" aria-hidden="true"></span>
+        <span class="footer-logo">Datos <strong>RD</strong></span>
+      </div>
+      <p class="footer-descripcion">
+        Periodismo de datos y análisis riguroso sobre la realidad económica, presupuestaria e institucional de República Dominicana. Sin afiliación partidaria ni opiniones infundadas.
+      </p>
+      <div class="footer-rss">
+        <a href="/rss.xml" class="rss-link">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M4 11a9 9 0 0 1 9 9"></path>
+            <path d="M4 4a16 16 0 0 1 16 16"></path>
+            <circle cx="5" cy="19" r="1"></circle>
+          </svg>
+          Suscribirse al feed RSS
+        </a>
+      </div>
+    </div>
+
+    <!-- Columna 2: Navegación Editorial -->
+    <div class="footer-columna">
+      <h4 class="footer-seccion-titulo">Contenido</h4>
+      <ul class="footer-enlaces">
+        <li><a href="/articulos">Todos los análisis</a></li>
+        <li><a href="/datos">Catálogo de datos (CSV)</a></li>
+        <li><a href="/metodologia">Metodología y fuentes</a></li>
+        <li><a href="/sobre">Sobre el proyecto</a></li>
+        <li><a href="/contacto">Contacto y correcciones</a></li>
+      </ul>
+    </div>
+
+    <!-- Columna 3: Información Legal y Transparencia -->
+    <div class="footer-columna">
+      <h4 class="footer-seccion-titulo">Legal y Transparencia</h4>
+      <ul class="footer-enlaces">
+        <li><a href="/privacidad">Política de privacidad</a></li>
+        <li><a href="/terminos">Términos de uso y aviso legal</a></li>
+        <li><a href="/terminos#aviso-afiliados">Aviso de transparencia y afiliados</a></li>
+      </ul>
+      <div class="aviso-afiliados-caja">
+        <p>
+          <strong>Aviso de divulgación:</strong> En etapas posteriores, algunos enlaces podrán ser de afiliados. Esto nunca condiciona nuestra selección de datos ni conclusiones analíticas.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-sub">
+    <div class="container footer-sub-container">
+      <p class="footer-copy">
+        © {anioActual} Datos RD. Contenido bajo licencia abierta con atribución a la fuente original.
+      </p>
+      <p class="footer-infra">
+        Infraestructura estática de costo cero • Alojado en la red perimetral
+      </p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .sitio-footer {
+    background-color: var(--color-surface);
+    border-top: 1px solid var(--color-border);
+    margin-top: auto;
+    padding-top: 3.5rem;
+    font-size: 0.9375rem;
+  }
+
+  .footer-container {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1.2fr;
+    gap: 3rem;
+    padding-bottom: 3rem;
+  }
+
+  @media (max-width: 768px) {
+    .footer-container {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+  }
+
+  .footer-marca {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .logo-barra-sm {
+    display: inline-block;
+    width: 4px;
+    height: 16px;
+    background: linear-gradient(180deg, #002f6c 0%, #ce1126 100%);
+    border-radius: 2px;
+  }
+
+  .footer-logo {
+    font-size: 1.2rem;
+    color: var(--color-text);
+  }
+
+  .footer-logo strong {
+    color: var(--color-primary);
+    font-weight: 800;
+  }
+
+  .footer-descripcion {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    line-height: 1.6;
+    margin-bottom: 1.25rem;
+  }
+
+  .footer-rss {
+    display: inline-block;
+  }
+
+  .rss-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    padding: 0.3rem 0.6rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    transition: background-color 0.15s;
+  }
+
+  .rss-link:hover {
+    background-color: var(--color-surface-hover);
+    color: var(--color-text);
+  }
+
+  .footer-seccion-titulo {
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text);
+    margin-bottom: 1rem;
+  }
+
+  .footer-enlaces {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .footer-enlaces a {
+    color: var(--color-text-muted);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  .footer-enlaces a:hover {
+    color: var(--color-primary);
+  }
+
+  .aviso-afiliados-caja {
+    margin-top: 1.25rem;
+    padding: 0.75rem;
+    border-radius: var(--radius-sm);
+    background-color: var(--color-surface-hover);
+    border: 1px solid var(--color-border-subtle);
+    font-size: 0.775rem;
+    color: var(--color-text-muted);
+    line-height: 1.4;
+  }
+
+  .footer-sub {
+    border-top: 1px solid var(--color-border);
+    padding: 1.5rem 0;
+    font-size: 0.8125rem;
+    color: var(--color-text-light);
+  }
+
+  .footer-sub-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .footer-infra {
+    color: var(--color-text-muted);
+  }
+</style>

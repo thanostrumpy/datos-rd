@@ -1,0 +1,80 @@
+---
+import { getCollection } from 'astro:content';
+import ArticuloLayout from '../../layouts/ArticuloLayout.astro';
+import Grafico from '../../components/Grafico.astro';
+import datosTasaCambio from '../../../data/processed/tasa_cambio_bcrd.json';
+import datosInflacion from '../../../data/processed/inflacion_ipc_canasta_bcrd.json';
+
+export async function getStaticPaths() {
+  const articulos = await getCollection('articulos');
+  return articulos.map((articulo) => ({
+    params: { slug: articulo.slug },
+    props: { articulo },
+  }));
+}
+
+const { articulo } = Astro.props;
+const { Content } = await articulo.render();
+
+// Configuración de gráficos interactivos específicos según el artículo
+const esArticuloTasa = articulo.slug.includes('tasa-cambio');
+const esArticuloInflacion = articulo.slug.includes('inflacion');
+
+const puntosGraficoTasa = esArticuloTasa
+  ? datosTasaCambio.map((d) => ({
+      fecha: d.fecha,
+      valor: d.promedio,
+    }))
+  : [];
+
+const puntosGraficoInflacion = esArticuloInflacion
+  ? datosInflacion.map((d) => ({
+      fecha: d.fecha,
+      valor: d.inflacion_interanual,
+    }))
+  : [];
+---
+
+<ArticuloLayout articulo={articulo}>
+  {esArticuloTasa && (
+    <div slot="grafico-destacado" class="articulo-grafico-destacado">
+      <Grafico
+        id="grafico-articulo-usd"
+        tipo="lineas"
+        titulo="Evolución de la cotización USD/DOP (Mercado Spot BCRD 2023 - 2026)"
+        descripcion="Promedio mensual ponderado de compra y venta publicado por el Banco Central."
+        unidades="RD$ por USD"
+        fuente="Banco Central de la República Dominicana (BCRD) - Mercado Cambiario"
+        fuenteUrl="https://www.bancentral.gov.do/a/d/2536-mercado-cambiario"
+        fechaDato="Octubre 2026"
+        datos={puntosGraficoTasa}
+        textoAlternativo="Evolución oficial de la cotización promedio del dólar estadounidense en el mercado spot dominicano desde 2023 hasta 2026."
+      />
+    </div>
+  )}
+
+  {esArticuloInflacion && (
+    <div slot="grafico-destacado" class="articulo-grafico-destacado">
+      <Grafico
+        id="grafico-articulo-inflacion"
+        tipo="barras"
+        titulo="Inflación Interanual del IPC (Rango Meta: 4.0% ± 1.0%)"
+        descripcion="Variación porcentual interanual del Índice de Precios al Consumidor."
+        unidades="% interanual"
+        fuente="Banco Central de la República Dominicana (BCRD) - Estadísticas de Precios"
+        fuenteUrl="https://www.bancentral.gov.do/a/d/2534-precios"
+        fechaDato="Septiembre 2026"
+        datos={puntosGraficoInflacion}
+        textoAlternativo="Gráfico de barras que compara la inflación interanual oficial en República Dominicana entre diciembre 2023 y septiembre 2026 frente al rango meta."
+      />
+    </div>
+  )}
+
+  <Content />
+</ArticuloLayout>
+
+<style>
+  .articulo-grafico-destacado {
+    margin: 1.5rem 0 2.5rem;
+  }
+</style>

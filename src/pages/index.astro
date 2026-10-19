@@ -1,0 +1,233 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Grafico from '../components/Grafico.astro';
+import TarjetaDatoClave from '../components/TarjetaDatoClave.astro';
+import TarjetaArticulo from '../components/TarjetaArticulo.astro';
+import Newsletter from '../components/Newsletter.astro';
+import { getCollection } from 'astro:content';
+import datosTasaCambio from '../../data/processed/tasa_cambio_bcrd.json';
+
+// Cargar artículos ordenados por fecha
+const articulos = await getCollection('articulos');
+const ultimosArticulos = articulos
+  .sort((a, b) => b.data.fecha.getTime() - a.data.fecha.getTime())
+  .slice(0, 6);
+
+// Formatear datos de tasa de cambio para el componente gráfico
+const puntosGrafico = datosTasaCambio.map((d) => ({
+  fecha: d.fecha,
+  valor: d.promedio,
+}));
+
+const ultimoDato = datosTasaCambio[datosTasaCambio.length - 1];
+---
+
+<BaseLayout
+  title="Inicio — Periodismo de datos y análisis de actualidad"
+  description="Entiende los números detrás de las noticias en República Dominicana: economía, tasa de cambio, inflación, presupuesto y servicios públicos con análisis independiente."
+>
+  <!-- Hero Section -->
+  <section class="hero-portada">
+    <div class="container">
+      <div class="hero-badge">
+        <span class="punto-vivo"></span> Datos oficiales del Banco Central (BCRD)
+      </div>
+      <h1 class="hero-titulo">
+        Los números detrás de las noticias en <span>República Dominicana</span>
+      </h1>
+      <p class="hero-subtitulo">
+        Periodismo de datos riguroso, neutral y sin ruido. Analizamos cifras oficiales del BCRD, ONE y Hacienda para explicar su impacto real en tu bolsillo y en la toma de decisiones.
+      </p>
+
+      <!-- Métricas destacadas oficiales -->
+      <div class="grid-metricas">
+        <TarjetaDatoClave
+          cifra={`RD$ ${ultimoDato.promedio.toFixed(2)}`}
+          etiqueta="Tasa USD/DOP (Mercado Spot)"
+          descripcion="Cotización promedio ponderada compra y venta BCRD"
+          variacion={`+${ultimoDato.var_pct}%`}
+          tendencia="alza"
+          fecha="Octubre 2026"
+          fuente="Banco Central de la Rep. Dominicana"
+        />
+        <TarjetaDatoClave
+          cifra="5.12%"
+          etiqueta="Inflación Interanual (Meta: 4% ± 1%)"
+          descripcion="IPC General. Inflación subyacente: 4.61% dentro del rango"
+          variacion="-0.01%"
+          tendencia="baja"
+          fecha="Septiembre 2026"
+          fuente="Banco Central de la Rep. Dominicana"
+        />
+        <TarjetaDatoClave
+          cifra="RD$ 49,950"
+          etiqueta="Costo Canasta Familiar Promedio"
+          descripcion="Promedio nacional de los hogares dominicanos"
+          variacion="+5.4% interanual"
+          tendencia="alza"
+          fecha="Septiembre 2026"
+          fuente="Banco Central de la Rep. Dominicana"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- Gráfico destacado de portada -->
+  <section class="seccion-grafico-destacado">
+    <div class="container">
+      <div class="seccion-header">
+        <div>
+          <span class="badge">Visualización destacada</span>
+          <h2 class="seccion-titulo">Trayectoria de la Tasa de Cambio Spot BCRD (2023 - 2026)</h2>
+        </div>
+        <a href="/datos" class="btn btn-secondary">Explorar datos abiertos</a>
+      </div>
+
+      <Grafico
+        id="grafico-portada-usd"
+        tipo="lineas"
+        titulo="Evolución de la Tasa de Cambio Promedio Ponderada (USD/DOP)"
+        descripcion="Serie histórica oficial de compra y venta del dólar estadounidense en el mercado cambiario spot."
+        unidades="RD$ por USD"
+        fuente="Banco Central de la República Dominicana (BCRD) - Mercado Cambiario"
+        fuenteUrl="https://www.bancentral.gov.do/a/d/2536-mercado-cambiario"
+        fechaDato="Octubre 2026"
+        datos={puntosGrafico}
+        textoAlternativo="Gráfico oficial de líneas que ilustra la trayectoria del tipo de cambio desde 56.28 pesos por dólar en enero 2023 hasta 61.60 pesos por dólar en octubre 2026."
+      />
+    </div>
+  </section>
+
+  <!-- Últimos análisis y publicaciones -->
+  <section class="seccion-articulos">
+    <div class="container">
+      <div class="seccion-header">
+        <div>
+          <span class="badge">Publicaciones recientes</span>
+          <h2 class="seccion-titulo">Últimos análisis con datos verificados</h2>
+        </div>
+        <a href="/articulos" class="btn btn-secondary">Ver todos los artículos</a>
+      </div>
+
+      <div class="grid-articulos">
+        {ultimosArticulos.map((articulo) => (
+          <TarjetaArticulo articulo={articulo} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Newsletter -->
+  <div class="container">
+    <Newsletter />
+  </div>
+</BaseLayout>
+
+<style>
+  .hero-portada {
+    padding: 3.5rem 0 2.5rem;
+    border-bottom: 1px solid var(--color-border);
+    background-color: var(--color-surface);
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    background-color: var(--color-surface-hover);
+    padding: 0.35rem 0.75rem;
+    border-radius: 9999px;
+    border: 1px solid var(--color-border);
+    margin-bottom: 1.25rem;
+  }
+
+  .punto-vivo {
+    width: 8px;
+    height: 8px;
+    background-color: var(--color-success);
+    border-radius: 50%;
+    animation: pulsar 2s infinite;
+  }
+
+  @keyframes pulsar {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.2); }
+  }
+
+  .hero-titulo {
+    font-size: 2.75rem;
+    font-weight: 900;
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+    color: var(--color-text);
+    max-width: 850px;
+    margin-bottom: 1rem;
+  }
+
+  .hero-titulo span {
+    color: var(--color-primary);
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .hero-subtitulo {
+    font-size: 1.2rem;
+    color: var(--color-text-muted);
+    max-width: 720px;
+    line-height: 1.6;
+    margin-bottom: 2.5rem;
+  }
+
+  @media (max-width: 640px) {
+    .hero-titulo {
+      font-size: 2rem;
+    }
+    .hero-subtitulo {
+      font-size: 1.05rem;
+    }
+  }
+
+  .grid-metricas {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .seccion-grafico-destacado {
+    padding: 3.5rem 0;
+  }
+
+  .seccion-articulos {
+    padding: 3.5rem 0;
+    background-color: var(--color-surface);
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .seccion-header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .seccion-titulo {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--color-text);
+    margin-top: 0.35rem;
+    letter-spacing: -0.02em;
+  }
+
+  .grid-articulos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.5rem;
+  }
+</style>

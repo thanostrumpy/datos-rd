@@ -1,0 +1,88 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Metodología y Verificación — Datos RD"
+  description="Conoce los estándares editoriales, el ciclo de recolección, limpieza con Python y las fuentes oficiales que fundamentan el periodismo de datos en Datos RD."
+>
+  <div class="pagina-cabecera">
+    <div class="container prose-container">
+      <span class="badge">Transparencia Editorial</span>
+      <h1 class="titulo-pagina">Metodología y Verificación de Datos</h1>
+      <p class="bajada-pagina">
+        En Datos RD no publicamos especulaciones ni reescribimos notas de prensa. Nuestra labor periodística se basa en la auditoría sistemática de datos oficiales y la explicación clara de lo que revelan.
+      </p>
+    </div>
+  </div>
+
+  <div class="container prose-container">
+    <div class="article-body">
+      <h2>1. Selección de fuentes y prioridad institucional</h2>
+      <p>
+        Priorizamos fuentes públicas oficiales y conjuntos de datos abiertos de la República Dominicana y organismos multilaterales:
+      </p>
+      <ul>
+        <li><strong>Banco Central de la República Dominicana (BCRD):</strong> Cuentas nacionales, Producto Interno Bruto (PIB), inflación (IPC), mercado cambiario, remesas familiares y política monetaria.</li>
+        <li><strong>Oficina Nacional de Estadística (ONE):</strong> Censos de población, encuestas continuas de fuerza de trabajo (mercado laboral) y estadísticas demográficas.</li>
+        <li><strong>Dirección General de Presupuesto (DIGEPRES) y Ministerio de Hacienda:</strong> Formulación y ejecución presupuestaria del Estado, ingresos fiscales y servicio de la deuda pública.</li>
+        <li><strong>Dirección General de Contrataciones Públicas (DGCP):</strong> Transparencia en licitaciones del Estado.</li>
+        <li><strong>Portal de Datos Abiertos (datos.gob.do):</strong> Conjuntos de datos gubernamentales estandarizados.</li>
+        <li><strong>Organismos internacionales (CEPAL, Banco Mundial, FMI):</strong> Series comparativas regionales para situar a República Dominicana en el contexto de América Latina y el Caribe.</li>
+      </ul>
+
+      <h2>2. Flujo de procesamiento de datos</h2>
+      <p>
+        Cada conjunto de datos atraviesa un proceso estandarizado antes de su publicación:
+      </p>
+      <ol>
+        <li><strong>Adquisición íntegra:</strong> El archivo bruto original se conserva sin modificar en la carpeta <code>/data/raw</code> para preservar la trazabilidad del dato.</li>
+        <li><strong>Limpieza y transformación:</strong> Mediante scripts escritos en Python utilizando la biblioteca <code>pandas</code> (ubicados en <code>/scripts</code>), se unifican formatos de fecha (ISO 8601: YYYY-MM-DD), se corrigen inconsistencias tipográficas y se tratan valores nulos con explicaciones explícitas.</li>
+        <li><strong>Generación de datasets procesados:</strong> Los datos resultantes se exportan a <code>/data/processed</code> en CSV y JSON para su ingesta por los componentes de visualización del sitio web.</li>
+        <li><strong>Auditoría cruzada:</strong> Todo cálculo (tasas de crecimiento, porcentajes, índices base) se verifica con doble verificación matemática antes de redactar las conclusiones.</li>
+      </ol>
+
+      <h2>3. Principios editoriales no negociables</h2>
+      <ul>
+        <li><strong>Toda cifra lleva fuente y fecha:</strong> Cada afirmación cuantitativa va acompañada del enlace a la fuente y la fecha exacta del corte estadístico.</li>
+        <li><strong>Separación entre hecho e interpretación:</strong> Los hechos corresponden a las cifras verificadas; las posibles implicaciones económicas se presentan con lenguaje prudente y neutral, etiquetadas como análisis.</li>
+        <li><strong>Neutralidad política:</strong> No realizamos proselitismo ni valoraciones partidistas. Los números se analizan por su propio mérito.</li>
+        <li><strong>Revisión humana obligatoria:</strong> Ningún contenido generado con asistencia tecnológica se publica automáticamente; cada artículo requiere validación de un autor humano responsable.</li>
+      </ul>
+
+      <h2>4. Política ante dudas y correcciones</h2>
+      <p>
+        Si un dato oficial es rectificado con posterioridad por la entidad emisora o si detectamos una imprecisión en nuestros cálculos:
+      </p>
+      <ul>
+        <li>El artículo se corrige de manera inmediata en el cuerpo del texto.</li>
+        <li>Se inserta una nota visible de <strong>"Actualización / Corrección"</strong> indicando qué dato fue modificado, la fecha de la enmienda y la causa del ajuste.</li>
+      </ul>
+      <p>
+        Cualquier lector puede reportar inconsistencias o solicitar precisiones a través de nuestra página de <a href="/contacto">Contacto y correcciones</a>.
+      </p>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .pagina-cabecera {
+    padding: 3rem 0 2rem;
+    background-color: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: 2.5rem;
+  }
+
+  .titulo-pagina {
+    font-size: 2.25rem;
+    font-weight: 800;
+    margin: 0.5rem 0 0.75rem;
+    color: var(--color-text);
+  }
+
+  .bajada-pagina {
+    font-size: 1.15rem;
+    color: var(--color-text-muted);
+    line-height: 1.6;
+  }
+</style>

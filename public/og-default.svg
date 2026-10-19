@@ -1,0 +1,79 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <!-- Fondo degradado institucional -->
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#001a3d" />
+      <stop offset="100%" stop-color="#090d16" />
+    </linearGradient>
+    <linearGradient id="barGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#002f6c" />
+      <stop offset="50%" stop-color="#0284c7" />
+      <stop offset="100%" stop-color="#ce1126" />
+    </linearGradient>
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#ffffff" />
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bgGrad)" />
+
+  <!-- Cuadrícula de datos de fondo sutil -->
+  <g opacity="0.08" stroke="#ffffff" stroke-width="1">
+    <line x1="80" y1="120" x2="1120" y2="120" />
+    <line x1="80" y1="220" x2="1120" y2="220" />
+    <line x1="80" y1="320" x2="1120" y2="320" />
+    <line x1="80" y1="420" x2="1120" y2="420" />
+    <line x1="80" y1="520" x2="1120" y2="520" />
+    <line x1="240" y1="80" x2="240" y2="560" />
+    <line x1="440" y1="80" x2="440" y2="560" />
+    <line x1="640" y1="80" x2="640" y2="560" />
+    <line x1="840" y1="80" x2="840" y2="560" />
+    <line x1="1040" y1="80" x2="1040" y2="560" />
+  </g>
+
+  <!-- Gráfico decorativo de fondo -->
+  <path d="M 120 460 Q 300 440, 480 390 T 840 280 T 1100 210" fill="none" stroke="#0284c7" stroke-width="4" opacity="0.4" />
+  <circle cx="1100" cy="210" r="8" fill="#ce1126" opacity="0.8" />
+
+  <!-- Barra tricolor dominicana lateral -->
+  <rect x="80" y="160" width="12" height="260" rx="6" fill="url(#barGrad)" />
+
+  <!-- Logotipo principal -->
+  <text x="120" y="230" font-family="system-ui, -apple-system, sans-serif" font-size="72" font-weight="900" fill="#ffffff" letter-spacing="-1">
+    Datos <tspan fill="#38bdf8">RD</tspan>
+  </text>
+
+  <!-- Subtítulo / Tagline -->
+  <text x="125" y="290" font-family="system-ui, -apple-system, sans-serif" font-size="28" font-weight="600" fill="#94a3b8" letter-spacing="1">
+    PERIODISMO DE DATOS DE REPÚBLICA DOMINICANA
+  </text>
+
+  <!-- Misión descriptiva -->
+  <text x="125" y="370" font-family="system-ui, -apple-system, sans-serif" font-size="32" font-weight="400" fill="#e2e8f0">
+    Análisis cuantitativo original, gráficos interactivos
+  </text>
+  <text x="125" y="415" font-family="system-ui, -apple-system, sans-serif" font-size="32" font-weight="400" fill="#e2e8f0">
+    y cifras verificadas de fuentes públicas oficiales.
+  </text>
+
+  <!-- Pie con categorías y URL -->
+  <g transform="translate(125, 510)">
+    <rect x="0" y="0" width="160" height="38" rx="8" fill="#1e293b" />
+    <text x="80" y="24" font-family="system-ui, sans-serif" font-size="16" font-weight="700" fill="#38bdf8" text-anchor="middle">ECONOMÍA</text>
+
+    <rect x="180" y="0" width="140" height="38" rx="8" fill="#1e293b" />
+    <text x="250" y="24" font-family="system-ui, sans-serif" font-size="16" font-weight="700" fill="#38bdf8" text-anchor="middle">PRECIOS</text>
+
+    <rect x="340" y="0" width="150" height="38" rx="8" fill="#1e293b" />
+    <text x="415" y="24" font-family="system-ui, sans-serif" font-size="16" font-weight="700" fill="#38bdf8" text-anchor="middle">ENERGÍA</text>
+
+    <rect x="510" y="0" width="200" height="38" rx="8" fill="#1e293b" />
+    <text x="610" y="24" font-family="system-ui, sans-serif" font-size="16" font-weight="700" fill="#38bdf8" text-anchor="middle">PRESUPUESTO</text>
+
+    <!-- URL institucional -->
+    <text x="955" y="26" font-family="system-ui, sans-serif" font-size="20" font-weight="700" fill="#94a3b8" text-anchor="end">
+      datosrd.com
+    </text>
+  </g>
+</svg>

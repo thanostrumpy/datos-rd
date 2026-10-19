@@ -1,0 +1,16 @@
+[
+  {"fecha": "2023-12", "inflacion_interanual": 3.57, "inflacion_subyacente": 3.98, "costo_canasta": 44550},
+  {"fecha": "2024-03", "inflacion_interanual": 3.38, "inflacion_subyacente": 4.04, "costo_canasta": 45120},
+  {"fecha": "2024-06", "inflacion_interanual": 3.46, "inflacion_subyacente": 3.98, "costo_canasta": 45680},
+  {"fecha": "2024-09", "inflacion_interanual": 3.29, "inflacion_subyacente": 4.01, "costo_canasta": 45890},
+  {"fecha": "2024-12", "inflacion_interanual": 3.32, "inflacion_subyacente": 4.0, "costo_canasta": 46120},
+  {"fecha": "2025-03", "inflacion_interanual": 3.58, "inflacion_subyacente": 3.92, "costo_canasta": 46750},
+  {"fecha": "2025-06", "inflacion_interanual": 3.85, "inflacion_subyacente": 4.12, "costo_canasta": 47110},
+  {"fecha": "2025-08", "inflacion_interanual": 3.9, "inflacion_subyacente": 4.2, "costo_canasta": 47374},
+  {"fecha": "2025-12", "inflacion_interanual": 4.95, "inflacion_subyacente": 4.4, "costo_canasta": 48150},
+  {"fecha": "2026-01", "inflacion_interanual": 4.98, "inflacion_subyacente": 4.45, "costo_canasta": 48650},
+  {"fecha": "2026-03", "inflacion_interanual": 4.88, "inflacion_subyacente": 4.52, "costo_canasta": 49120},
+  {"fecha": "2026-06", "inflacion_interanual": 5.67, "inflacion_subyacente": 4.8, "costo_canasta": 49580},
+  {"fecha": "2026-08", "inflacion_interanual": 5.13, "inflacion_subyacente": 4.68, "costo_canasta": 49802},
+  {"fecha": "2026-09", "inflacion_interanual": 5.12, "inflacion_subyacente": 4.61, "costo_canasta": 49950}
+]

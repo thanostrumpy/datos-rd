@@ -1,0 +1,17 @@
+[
+  {"fecha": "2023-01", "compra": 56.12, "venta": 56.44, "promedio": 56.28, "var_pct": 0.0},
+  {"fecha": "2023-06", "compra": 55.85, "venta": 56.18, "promedio": 56.02, "var_pct": -0.46},
+  {"fecha": "2023-12", "compra": 57.75, "venta": 58.0, "promedio": 57.88, "var_pct": 3.32},
+  {"fecha": "2024-03", "compra": 58.7, "venta": 59.05, "promedio": 58.88, "var_pct": 1.73},
+  {"fecha": "2024-06", "compra": 59.1, "venta": 59.45, "promedio": 59.28, "var_pct": 0.68},
+  {"fecha": "2024-09", "compra": 59.85, "venta": 60.15, "promedio": 60.0, "var_pct": 1.21},
+  {"fecha": "2024-12", "compra": 60.1, "venta": 60.45, "promedio": 60.28, "var_pct": 0.47},
+  {"fecha": "2025-03", "compra": 60.85, "venta": 61.2, "promedio": 61.02, "var_pct": 1.23},
+  {"fecha": "2025-06", "compra": 61.4, "venta": 61.8, "promedio": 61.6, "var_pct": 0.95},
+  {"fecha": "2025-09", "compra": 61.9, "venta": 62.3, "promedio": 62.1, "var_pct": 0.81},
+  {"fecha": "2025-12", "compra": 62.05, "venta": 62.45, "promedio": 62.25, "var_pct": 0.24},
+  {"fecha": "2026-03", "compra": 60.9, "venta": 61.4, "promedio": 61.15, "var_pct": -1.77},
+  {"fecha": "2026-06", "compra": 60.19, "venta": 60.84, "promedio": 60.52, "var_pct": -1.03},
+  {"fecha": "2026-09", "compra": 61.2, "venta": 61.65, "promedio": 61.42, "var_pct": 1.49},
+  {"fecha": "2026-10", "compra": 61.36, "venta": 61.83, "promedio": 61.6, "var_pct": 0.29}
+]

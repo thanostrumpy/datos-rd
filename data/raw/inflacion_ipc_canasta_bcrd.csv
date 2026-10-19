@@ -1,0 +1,20 @@
+# FUENTE OFICIAL: Banco Central de la República Dominicana (BCRD)
+# Serie: Índice de Precios al Consumidor (IPC) e Inflación Interanual / Costo Canasta Familiar Nacional
+# URL: https://www.bancentral.gov.do/a/d/2534-precios
+# Consulta: 2026-10-18
+# Rango meta del programa monetario BCRD: 4.0% ± 1.0% (3.0% - 5.0%)
+fecha,inflacion_interanual,inflacion_subyacente,costo_canasta_promedio
+2023-12-01,3.57,3.98,44550.00
+2024-03-01,3.38,4.04,45120.00
+2024-06-01,3.46,3.98,45680.00
+2024-09-01,3.29,4.01,45890.00
+2024-12-01,3.32,4.00,46120.00
+2025-03-01,3.58,3.92,46750.00
+2025-06-01,3.85,4.12,47110.00
+2025-08-01,3.90,4.20,47374.00
+2025-12-01,4.95,4.40,48150.00
+2026-01-01,4.98,4.45,48650.00
+2026-03-01,4.88,4.52,49120.00
+2026-06-01,5.67,4.80,49580.00
+2026-08-01,5.13,4.68,49802.00
+2026-09-01,5.12,4.61,49950.00

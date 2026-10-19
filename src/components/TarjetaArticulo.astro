@@ -1,0 +1,141 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  articulo: CollectionEntry<'articulos'>;
+}
+
+const { articulo } = Astro.props;
+const { titulo, descripcion, fecha, categoria, estado, tipo } = articulo.data;
+
+const fechaFormateada = fecha.toLocaleDateString('es-DO', {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
+});
+
+const slug = articulo.slug;
+---
+
+<article class="tarjeta-articulo">
+  <div class="articulo-meta-superior">
+    <span class="articulo-categoria">{categoria}</span>
+    <time datetime={fecha.toISOString()} class="articulo-fecha">{fechaFormateada}</time>
+    {estado === 'borrador' && (
+      <span class="badge badge-draft" title="Artículo en borrador pendiente de revisión humana">
+        Borrador
+      </span>
+    )}
+  </div>
+
+  <h3 class="articulo-titulo">
+    <a href={`/articulos/${slug}`}>{titulo}</a>
+  </h3>
+
+  <p class="articulo-descripcion">{descripcion}</p>
+
+  <div class="articulo-footer">
+    <a href={`/articulos/${slug}`} class="leer-mas" aria-label={`Leer análisis completo: ${titulo}`}>
+      Leer análisis
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <line x1="5" y1="12" x2="19" y2="12"></line>
+        <polyline points="12 5 19 12 12 19"></polyline>
+      </svg>
+    </a>
+    <span class="articulo-tipo">{tipo}</span>
+  </div>
+</article>
+
+<style>
+  .tarjeta-articulo {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+  }
+
+  .tarjeta-articulo:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--color-accent);
+  }
+
+  .articulo-meta-superior {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.65rem;
+    margin-bottom: 0.75rem;
+    font-size: 0.8125rem;
+  }
+
+  .articulo-categoria {
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-accent);
+  }
+
+  .articulo-fecha {
+    color: var(--color-text-muted);
+  }
+
+  .articulo-titulo {
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1.35;
+    margin-bottom: 0.75rem;
+  }
+
+  .articulo-titulo a {
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  .articulo-titulo a:hover {
+    color: var(--color-primary);
+  }
+
+  .articulo-descripcion {
+    font-size: 0.9375rem;
+    color: var(--color-text-muted);
+    line-height: 1.55;
+    margin-bottom: 1.25rem;
+    flex-grow: 1;
+  }
+
+  .articulo-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-border-subtle);
+    font-size: 0.875rem;
+  }
+
+  .leer-mas {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    text-decoration: none;
+  }
+
+  .leer-mas:hover {
+    color: var(--color-accent);
+    gap: 0.5rem;
+  }
+
+  .articulo-tipo {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-light);
+  }
+</style>

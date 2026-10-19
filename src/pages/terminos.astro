@@ -1,0 +1,88 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Términos de Uso y Aviso Legal — Datos RD"
+  description="Términos y condiciones de uso, aviso legal, exención de responsabilidad financiera y política de divulgación de afiliados en Datos RD."
+>
+  <div class="pagina-cabecera">
+    <div class="container prose-container">
+      <span class="badge">Condiciones de Servicio</span>
+      <h1 class="titulo-pagina">Términos de Uso y Aviso Legal</h1>
+      <p class="bajada-pagina">
+        Última actualización: 18 de octubre de 2026. Al navegar o descargar datos de Datos RD, aceptas las siguientes condiciones de uso general.
+      </p>
+    </div>
+  </div>
+
+  <div class="container prose-container">
+    <div class="article-body">
+      <h2>1. Finalidad estrictamente informativa y periodística</h2>
+      <p>
+        El contenido publicado en <strong>Datos RD</strong> tiene un propósito exclusivo de difusión de periodismo de datos, análisis cuantitativo e información de interés público sobre la República Dominicana.
+      </p>
+      <p>
+        <strong>Exención de responsabilidad financiera:</strong> Ningún análisis, cálculo, gráfico o comentario constituye asesoramiento financiero, recomendación de inversión, predicción cambiaria ni consultoría legal o tributaria. Las decisiones comerciales o de inversión tomadas a partir de la información publicada son de exclusiva responsabilidad de quien las ejecute.
+      </p>
+
+      <h2>2. Exactitud y fuentes oficiales</h2>
+      <p>
+        Realizamos el mayor esfuerzo por verificar la exactitud de las cifras a partir de organismos oficiales (BCRD, ONE, Hacienda, DIGEPRES). No obstante, los datos oficiales están sujetos a revisiones periódicas retrospectivas por parte de sus emisores. Datos RD no asume responsabilidad por retrasos, correcciones o alteraciones en las fuentes originales primarias.
+      </p>
+
+      <h2>3. Licencia de contenidos y datos abiertos</h2>
+      <ul>
+        <li>
+          <strong>Texto y análisis editorial:</strong> Los textos originales son propiedad de Datos RD. Se autoriza su cita o referencia siempre que se atribuya explícitamente el crédito y se enlace directamente al artículo original.
+        </li>
+        <li>
+          <strong>Conjuntos de datos y scripts:</strong> Los archivos limpios en formato CSV/JSON y el código de procesamiento en Python son abiertos y pueden descargarse, compartirse y auditarse libremente para fines académicos, periodísticos o comerciales, reconociendo la fuente.
+        </li>
+      </ul>
+
+      <h2 id="aviso-afiliados">4. Política de divulgación y enlaces de afiliados</h2>
+      <p>
+        En cumplimiento con los estándares éticos internacionales y las pautas para publicidad digital transparente:
+      </p>
+      <ul>
+        <li>
+          En etapas posteriores de consolidación del sitio, algunos artículos o páginas podrán incluir enlaces de afiliados hacia libros, herramientas de software o plataformas de datos especializadas.
+        </li>
+        <li>
+          Si decides realizar una adquisición a través de estos enlaces, Datos RD podría percibir una pequeña comisión sin que esto represente ningún costo adicional para ti.
+        </li>
+        <li>
+          <strong>Independencia editorial inquebrantable:</strong> La inclusión de enlaces de afiliados nunca determina qué temas se analizan, qué datos se publican ni cuáles conclusiones se extraen. Solo recomendamos recursos que consideremos genuinamente útiles para nuestra comunidad de lectores.
+        </li>
+      </ul>
+
+      <h2>5. Modificaciones</h2>
+      <p>
+        Nos reservamos el derecho de actualizar estos términos en cualquier momento para reflejar cambios normativos o nuevas funcionalidades del proyecto. La fecha de la última revisión se mantendrá siempre visible en esta página.
+      </p>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .pagina-cabecera {
+    padding: 3rem 0 2rem;
+    background-color: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: 2.5rem;
+  }
+
+  .titulo-pagina {
+    font-size: 2.25rem;
+    font-weight: 800;
+    margin: 0.5rem 0 0.75rem;
+    color: var(--color-text);
+  }
+
+  .bajada-pagina {
+    font-size: 1.15rem;
+    color: var(--color-text-muted);
+    line-height: 1.6;
+  }
+</style>

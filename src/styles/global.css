@@ -1,0 +1,289 @@
+/* ==========================================================================
+   Variables y Paleta de Color (Modo Claro y Modo Oscuro)
+   ========================================================================== */
+:root {
+  --color-bg: #f8fafc;
+  --color-surface: #ffffff;
+  --color-surface-hover: #f1f5f9;
+  --color-border: #e2e8f0;
+  --color-border-subtle: #edf2f7;
+  
+  --color-text: #0f172a;
+  --color-text-muted: #475569;
+  --color-text-light: #64748b;
+
+  --color-primary: #002f6c; /* Azul institucional dominicano */
+  --color-primary-hover: #001f47;
+  --color-accent: #0284c7;  /* Azul cian analítico */
+  --color-accent-subtle: #e0f2fe;
+  --color-highlight: #ce1126; /* Rojo dominicano para datos de alerta */
+  
+  --color-success: #15803d;
+  --color-success-bg: #f0fdf4;
+  --color-warning: #b45309;
+  --color-warning-bg: #fffbeb;
+  
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.08), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+  --max-w-content: 1100px;
+  --max-w-prose: 720px;
+}
+
+html.dark {
+  --color-bg: #090d16;
+  --color-surface: #111827;
+  --color-surface-hover: #1f2937;
+  --color-border: #1f293d;
+  --color-border-subtle: #172033;
+  
+  --color-text: #f3f4f6;
+  --color-text-muted: #94a3b8;
+  --color-text-light: #64748b;
+
+  --color-primary: #38bdf8;
+  --color-primary-hover: #7dd3fc;
+  --color-accent: #38bdf8;
+  --color-accent-subtle: #082f49;
+  --color-highlight: #f87171;
+  
+  --color-success: #4ade80;
+  --color-success-bg: #052e16;
+  --color-warning: #fbbf24;
+  --color-warning-bg: #451a03;
+  
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.4);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.5);
+}
+
+/* ==========================================================================
+   Reset y Tipografía Base
+   ========================================================================== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-family: var(--font-sans);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Accesibilidad en Foco */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  transition: color 0.15s ease;
+}
+
+a:hover {
+  color: var(--color-accent);
+}
+
+img, svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* ==========================================================================
+   Layout Containers
+   ========================================================================== */
+.container {
+  width: 100%;
+  max-width: var(--max-w-content);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+}
+
+.prose-container {
+  width: 100%;
+  max-width: var(--max-w-prose);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ==========================================================================
+   Componentes Utilitarios
+   ========================================================================== */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.6rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-accent-subtle);
+  color: var(--color-accent);
+  text-decoration: none;
+}
+
+.badge-draft {
+  background-color: var(--color-warning-bg);
+  color: var(--color-warning);
+  border: 1px solid var(--color-warning);
+}
+
+.badge-published {
+  background-color: var(--color-success-bg);
+  color: var(--color-success);
+}
+
+/* Botones */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.15s, border-color 0.15s;
+  border: 1px solid transparent;
+}
+
+.btn-primary {
+  background-color: var(--color-primary);
+  color: #ffffff;
+}
+
+html.dark .btn-primary {
+  background-color: var(--color-accent);
+  color: #0b0f17;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary-hover);
+  color: #ffffff;
+}
+
+.btn-secondary {
+  background-color: var(--color-surface);
+  border-color: var(--color-border);
+  color: var(--color-text);
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-surface-hover);
+}
+
+/* ==========================================================================
+   Tablas Accesibles
+   ========================================================================== */
+.table-wrapper {
+  overflow-x: auto;
+  margin: 1.5rem 0;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.9375rem;
+}
+
+th, td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+th {
+  background-color: var(--color-surface-hover);
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+/* ==========================================================================
+   Contenido del Artículo (Prose)
+   ========================================================================== */
+.article-body {
+  font-size: 1.125rem;
+  line-height: 1.8;
+  color: var(--color-text);
+}
+
+.article-body h2 {
+  font-size: 1.625rem;
+  margin-top: 2.25rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--color-text);
+  border-bottom: 2px solid var(--color-border);
+  padding-bottom: 0.35rem;
+}
+
+.article-body h3 {
+  font-size: 1.3rem;
+  margin-top: 1.75rem;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.article-body p {
+  margin-bottom: 1.4rem;
+}
+
+.article-body ul, .article-body ol {
+  margin-bottom: 1.4rem;
+  padding-left: 1.5rem;
+}
+
+.article-body li {
+  margin-bottom: 0.5rem;
+}
+
+.article-body blockquote {
+  border-left: 4px solid var(--color-accent);
+  padding: 1rem 1.25rem;
+  margin: 1.5rem 0;
+  background-color: var(--color-accent-subtle);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  font-size: 1rem;
+  color: var(--color-text);
+}
+
+.article-body hr {
+  border: none;
+  border-top: 1px solid var(--color-border);
+  margin: 2.5rem 0;
+}

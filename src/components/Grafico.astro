@@ -1,0 +1,370 @@
+---
+interface PuntoDato {
+  fecha: string;
+  valor: number;
+  etiqueta?: string;
+  secundario?: number;
+}
+
+interface Props {
+  id?: string;
+  tipo?: 'lineas' | 'barras';
+  titulo: string;
+  descripcion?: string;
+  unidades: string;
+  fuente: string;
+  fuenteUrl?: string;
+  fechaDato: string;
+  datos: PuntoDato[];
+  colorPrincipal?: string;
+  colorSecundario?: string;
+  textoAlternativo?: string;
+}
+
+const {
+  id = `grafico-${Math.random().toString(36).substring(2, 9)}`,
+  tipo = 'lineas',
+  titulo,
+  descripcion,
+  unidades,
+  fuente,
+  fuenteUrl,
+  fechaDato,
+  datos = [],
+  colorPrincipal = 'var(--color-accent)',
+  colorSecundario = 'var(--color-primary)',
+  textoAlternativo,
+} = Astro.props;
+
+// Cálculos para dimensiones del gráfico SVG
+const width = 800;
+const height = 400;
+const padding = { top: 30, right: 30, bottom: 60, left: 65 };
+
+const valores = datos.map((d) => d.valor);
+const minValRaw = Math.min(...valores);
+const maxValRaw = Math.max(...valores);
+
+// Escala con margen inferior y superior para respiración visual
+const rango = maxValRaw - minValRaw || 1;
+const yMin = Math.floor(Math.max(0, minValRaw - rango * 0.15));
+const yMax = Math.ceil(maxValRaw + rango * 0.15);
+const yRango = yMax - yMin || 1;
+
+const chartW = width - padding.left - padding.right;
+const chartH = height - padding.top - padding.bottom;
+
+const puntosCalculados = datos.map((d, index) => {
+  const x = padding.left + (index / (datos.length - 1 || 1)) * chartW;
+  const y = padding.top + chartH - ((d.valor - yMin) / yRango) * chartH;
+  return { ...d, x, y };
+});
+
+const polylinePoints = puntosCalculados.map((p) => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ');
+const areaPoints = puntosCalculados.length > 0
+  ? `${padding.left},${padding.top + chartH} ${polylinePoints} ${puntosCalculados[puntosCalculados.length - 1].x.toFixed(1)},${padding.top + chartH}`
+  : '';
+
+// Líneas de cuadrícula horizontal (4 niveles)
+const numLineasY = 4;
+const gridLinesY = Array.from({ length: numLineasY + 1 }, (_, i) => {
+  const val = yMin + (yRango / numLineasY) * i;
+  const y = padding.top + chartH - (i / numLineasY) * chartH;
+  return { val: val.toFixed(1), y: y.toFixed(1) };
+});
+
+// Resumen accesible por defecto
+const altCalculado = textoAlternativo || `Gráfico de ${tipo} que ilustra ${titulo}. Datos desde ${datos[0]?.fecha || ''} hasta ${datos[datos.length - 1]?.fecha || ''}, oscilando entre ${minValRaw} y ${maxValRaw} ${unidades}.`;
+---
+
+<figure class="componente-grafico" id={id} role="group" aria-labelledby={`${id}-titulo`}>
+  <header class="grafico-header">
+    <div class="grafico-titulos">
+      <h3 id={`${id}-titulo`} class="grafico-titulo">{titulo}</h3>
+      {descripcion && <p class="grafico-descripcion">{descripcion}</p>}
+    </div>
+    <div class="grafico-unidad-badge" aria-label={`Unidad de medida: ${unidades}`}>
+      {unidades}
+    </div>
+  </header>
+
+  <!-- Contenedor responsivo SVG -->
+  <div class="grafico-svg-contenedor">
+    <svg
+      viewBox={`0 0 ${width} ${height}`}
+      preserveAspectRatio="xMidYMid meet"
+      class="grafico-svg"
+      role="img"
+      aria-label={altCalculado}
+    >
+      <defs>
+        <linearGradient id={`${id}-gradiente`} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="var(--color-accent)" stop-opacity="0.3" />
+          <stop offset="100%" stop-color="var(--color-accent)" stop-opacity="0.0" />
+        </linearGradient>
+      </defs>
+
+      <!-- Cuadrícula horizontal y etiquetas de eje Y -->
+      {gridLinesY.map((linea) => (
+        <g class="grid-line-group">
+          <line
+            x1={padding.left}
+            y1={linea.y}
+            x2={width - padding.right}
+            y2={linea.y}
+            class="grid-line"
+          />
+          <text
+            x={padding.left - 10}
+            y={linea.y}
+            class="axis-text y-axis-text"
+            text-anchor="end"
+            dominant-baseline="central"
+          >
+            {linea.val}
+          </text>
+        </g>
+      ))}
+
+      <!-- Tipo Líneas -->
+      {tipo === 'lineas' && (
+        <g class="serie-lineas">
+          <!-- Área sombreada -->
+          <polygon points={areaPoints} fill={`url(#${id}-gradiente)`} />
+          <!-- Línea principal -->
+          <polyline
+            points={polylinePoints}
+            fill="none"
+            stroke="var(--color-accent)"
+            stroke-width="3"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <!-- Puntos -->
+          {puntosCalculados.map((p) => (
+            <g class="punto-interactivo" tabindex="0">
+              <circle
+                cx={p.x}
+                cy={p.y}
+                r="4.5"
+                fill="var(--color-surface)"
+                stroke="var(--color-accent)"
+                stroke-width="2.5"
+                class="punto-circulo"
+              />
+              <title>{`${p.fecha}: ${p.valor} ${unidades}`}</title>
+            </g>
+          ))}
+        </g>
+      )}
+
+      <!-- Tipo Barras -->
+      {tipo === 'barras' && (
+        <g class="serie-barras">
+          {puntosCalculados.map((p, idx) => {
+            const barW = Math.max(12, (chartW / datos.length) * 0.6);
+            const barX = p.x - barW / 2;
+            const barH = padding.top + chartH - p.y;
+            return (
+              <g class="barra-interactiva" tabindex="0">
+                <rect
+                  x={barX}
+                  y={p.y}
+                  width={barW}
+                  height={barH}
+                  rx="3"
+                  fill="var(--color-accent)"
+                  class="barra-rect"
+                />
+                <title>{`${p.fecha}: ${p.valor} ${unidades}`}</title>
+              </g>
+            );
+          })}
+        </g>
+      )}
+
+      <!-- Etiquetas de eje X (fechas periódicas) -->
+      {puntosCalculados.map((p, idx) => {
+        // Mostrar sólo algunas etiquetas para evitar solapamiento en pantallas pequeñas
+        const paso = Math.max(1, Math.ceil(datos.length / 6));
+        const mostrar = idx % paso === 0 || idx === datos.length - 1;
+        if (!mostrar) return null;
+        return (
+          <text
+            x={p.x}
+            y={height - padding.bottom + 22}
+            class="axis-text x-axis-text"
+            text-anchor="middle"
+          >
+            {p.fecha}
+          </text>
+        );
+      })}
+    </svg>
+  </div>
+
+  <!-- Pie del gráfico obligatorio: Fuente, Fecha del dato y enlace -->
+  <footer class="grafico-footer">
+    <div class="grafico-metadatos">
+      <span class="grafico-fuente">
+        <strong>Fuente:</strong>{' '}
+        {fuenteUrl ? (
+          <a href={fuenteUrl} target="_blank" rel="noopener noreferrer">
+            {fuente}
+          </a>
+        ) : (
+          fuente
+        )}
+      </span>
+      <span class="grafico-fecha">
+        <strong>Datos a:</strong> {fechaDato}
+      </span>
+    </div>
+  </footer>
+
+  <!-- Tabla accesible oculta visualmente pero disponible para lectores de pantalla -->
+  <details class="grafico-datos-accesibles">
+    <summary>Ver datos en formato tabla para accesibilidad</summary>
+    <div class="table-wrapper">
+      <table>
+        <caption>{titulo} ({unidades})</caption>
+        <thead>
+          <tr>
+            <th scope="col">Período / Fecha</th>
+            <th scope="col">Valor ({unidades})</th>
+          </tr>
+        </thead>
+        <tbody>
+          {datos.map((d) => (
+            <tr>
+              <td>{d.fecha}</td>
+              <td>{d.valor}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </details>
+</figure>
+
+<style>
+  .componente-grafico {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .grafico-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .grafico-titulo {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-text);
+    line-height: 1.3;
+  }
+
+  .grafico-descripcion {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    margin-top: 0.25rem;
+  }
+
+  .grafico-unidad-badge {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--radius-sm);
+    background-color: var(--color-surface-hover);
+    color: var(--color-text-muted);
+    border: 1px solid var(--color-border);
+    white-space: nowrap;
+  }
+
+  .grafico-svg-contenedor {
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .grafico-svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .grid-line {
+    stroke: var(--color-border);
+    stroke-dasharray: 4, 4;
+    stroke-width: 1;
+  }
+
+  .axis-text {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    fill: var(--color-text-muted);
+  }
+
+  .punto-circulo {
+    transition: r 0.2s ease, stroke-width 0.2s ease;
+    cursor: pointer;
+  }
+
+  .punto-interactivo:hover .punto-circulo,
+  .punto-interactivo:focus .punto-circulo {
+    r: 7;
+    stroke-width: 3.5;
+    outline: none;
+  }
+
+  .barra-rect {
+    transition: opacity 0.2s ease;
+    cursor: pointer;
+  }
+
+  .barra-interactiva:hover .barra-rect,
+  .barra-interactiva:focus .barra-rect {
+    opacity: 0.8;
+    outline: none;
+  }
+
+  .grafico-footer {
+    margin-top: 1rem;
+    padding-top: 0.875rem;
+    border-top: 1px solid var(--color-border);
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+  }
+
+  .grafico-metadatos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+
+  .grafico-datos-accesibles {
+    margin-top: 1rem;
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+  }
+
+  .grafico-datos-accesibles summary {
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--color-primary);
+  }
+
+  .grafico-datos-accesibles summary:hover {
+    text-decoration: underline;
+  }
+</style>

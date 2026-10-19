@@ -1,0 +1,134 @@
+---
+interface Props {
+  cifra: string;
+  etiqueta: string;
+  descripcion?: string;
+  variacion?: string;
+  tendencia?: 'alza' | 'baja' | 'neutral';
+  fecha?: string;
+  fuente?: string;
+}
+
+const {
+  cifra,
+  etiqueta,
+  descripcion,
+  variacion,
+  tendencia = 'neutral',
+  fecha,
+  fuente,
+} = Astro.props;
+---
+
+<div class="tarjeta-dato-clave">
+  <div class="tarjeta-header">
+    <span class="tarjeta-etiqueta">{etiqueta}</span>
+    {variacion && (
+      <span class={`tarjeta-variacion variacion-${tendencia}`}>
+        {tendencia === 'alza' && '▲ '}
+        {tendencia === 'baja' && '▼ '}
+        {variacion}
+      </span>
+    )}
+  </div>
+
+  <div class="tarjeta-cifra">{cifra}</div>
+
+  {descripcion && <p class="tarjeta-descripcion">{descripcion}</p>}
+
+  {(fecha || fuente) && (
+    <div class="tarjeta-footer">
+      {fecha && <span class="tarjeta-fecha">A {fecha}</span>}
+      {fuente && <span class="tarjeta-fuente">Fuente: {fuente}</span>}
+    </div>
+  )}
+</div>
+
+<style>
+  .tarjeta-dato-clave {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: 1.25rem 1.5rem;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .tarjeta-dato-clave:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+
+  .tarjeta-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .tarjeta-etiqueta {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-muted);
+  }
+
+  .tarjeta-variacion {
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.15rem 0.45rem;
+    border-radius: var(--radius-sm);
+  }
+
+  .variacion-alza {
+    background-color: var(--color-warning-bg);
+    color: var(--color-warning);
+  }
+
+  .variacion-baja {
+    background-color: var(--color-success-bg);
+    color: var(--color-success);
+  }
+
+  .variacion-neutral {
+    background-color: var(--color-surface-hover);
+    color: var(--color-text-muted);
+  }
+
+  .tarjeta-cifra {
+    font-size: 2.25rem;
+    font-weight: 800;
+    line-height: 1.1;
+    color: var(--color-text);
+    margin-bottom: 0.5rem;
+    font-feature-settings: "tnum";
+    font-variant-numeric: tabular-nums;
+  }
+
+  .tarjeta-descripcion {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    line-height: 1.4;
+    margin-bottom: 0.75rem;
+  }
+
+  .tarjeta-footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--color-border);
+    font-size: 0.75rem;
+    color: var(--color-text-light);
+  }
+
+  .tarjeta-fuente {
+    font-style: italic;
+  }
+</style>

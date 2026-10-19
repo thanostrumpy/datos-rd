@@ -1,0 +1,141 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE_CONFIG } from '../config/site';
+---
+
+<BaseLayout
+  title="Contacto y Reporte de Correcciones — Datos RD"
+  description="Canal directo para reportar erratas, proponer conjuntos de datos públicos o contactar a la redacción de Datos RD."
+>
+  <div class="pagina-cabecera">
+    <div class="container prose-container">
+      <span class="badge">Atención al Lector</span>
+      <h1 class="titulo-pagina">Contacto y Política de Correcciones</h1>
+      <p class="bajada-pagina">
+        Si encuentras una discrepancia en nuestras cifras, un enlace roto o deseas sugerir un conjunto de datos públicos dominicanos para su análisis, este es el canal oficial de comunicación.
+      </p>
+    </div>
+  </div>
+
+  <div class="container prose-container">
+    <div class="grid-contacto">
+      <!-- Sección de Protocolo de Correcciones -->
+      <section class="contacto-seccion-card">
+        <h2>Reportar una corrección o errata</h2>
+        <p>
+          En <strong>{SITE_CONFIG.nombre}</strong> aplicamos una política de tolerancia cero con la inexactitud. Si consideras que un número o cálculo publicado contiene un error, por favor proporciona:
+        </p>
+        <ol>
+          <li>El enlace (URL) o título exacto del artículo.</li>
+          <li>La cifra o frase en cuestión.</li>
+          <li>El enlace a la fuente oficial (BCRD, ONE, Hacienda, etc.) que demuestra la discrepancia con su fecha correspondiente.</li>
+        </ol>
+        <p>
+          Revisamos cada reporte en un plazo máximo de 48 horas y, de confirmarse el error, publicamos una nota visible de corrección fechada.
+        </p>
+      </section>
+
+      <!-- Canales de comunicación directa -->
+      <section class="contacto-seccion-card">
+        <h2>Canales de contacto</h2>
+        <p>
+          Puedes escribirnos directamente a través de cualquiera de los siguientes medios:
+        </p>
+        <ul class="canales-lista">
+          <li>
+            <strong>Correo electrónico de redacción:</strong><br />
+            <a href={`mailto:${SITE_CONFIG.emailContacto}`}>{SITE_CONFIG.emailContacto}</a>
+          </li>
+          <li>
+            <strong>Repositorio abierto y código fuente:</strong><br />
+            <a href={SITE_CONFIG.githubUrl} target="_blank" rel="noopener noreferrer">
+              Ver proyecto en GitHub
+            </a>
+          </li>
+          <li>
+            <strong>Boletín y notas rápidas:</strong><br />
+            A través de las respuestas directas a los envíos semanales de nuestro boletín.
+          </li>
+        </ul>
+      </section>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .pagina-cabecera {
+    padding: 3rem 0 2rem;
+    background-color: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: 2.5rem;
+  }
+
+  .titulo-pagina {
+    font-size: 2.25rem;
+    font-weight: 800;
+    margin: 0.5rem 0 0.75rem;
+    color: var(--color-text);
+  }
+
+  .bajada-pagina {
+    font-size: 1.15rem;
+    color: var(--color-text-muted);
+    line-height: 1.6;
+  }
+
+  .grid-contacto {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-bottom: 3.5rem;
+  }
+
+  .contacto-seccion-card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+  }
+
+  .contacto-seccion-card h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--color-text);
+  }
+
+  .contacto-seccion-card p {
+    font-size: 1rem;
+    color: var(--color-text-muted);
+    line-height: 1.6;
+    margin-bottom: 1.25rem;
+  }
+
+  .contacto-seccion-card ol {
+    margin: 1rem 0 1.5rem 1.5rem;
+    color: var(--color-text-muted);
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  .canales-lista {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .canales-lista li {
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  .canal-detalle {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--color-text-light);
+    margin-top: 0.2rem;
+  }
+</style>

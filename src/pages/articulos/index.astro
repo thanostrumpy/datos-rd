@@ -1,0 +1,240 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import TarjetaArticulo from '../../components/TarjetaArticulo.astro';
+import { getCollection } from 'astro:content';
+
+const articulos = await getCollection('articulos');
+// Ordenar por fecha descendente
+const articulosOrdenados = articulos.sort(
+  (a, b) => b.data.fecha.getTime() - a.data.fecha.getTime()
+);
+
+const categorias = [
+  { id: 'todos', label: 'Todas las categorías' },
+  { id: 'economia', label: 'Economía' },
+  { id: 'precios', label: 'Precios' },
+  { id: 'energia', label: 'Energía' },
+  { id: 'presupuesto', label: 'Presupuesto' },
+  { id: 'transporte', label: 'Transporte' },
+  { id: 'seguridad', label: 'Seguridad' },
+  { id: 'educacion', label: 'Educación' },
+  { id: 'otros', label: 'Otros' },
+];
+---
+
+<BaseLayout
+  title="Artículos y Análisis de Datos"
+  description="Explora todos los análisis de periodismo de datos sobre República Dominicana. Filtra por economía, precios, energía, transporte y presupuesto público."
+>
+  <div class="articulos-portada-hero">
+    <div class="container">
+      <span class="badge">Catálogo editorial</span>
+      <h1 class="pagina-titulo">Análisis e Investigaciones de Datos</h1>
+      <p class="pagina-subtitulo">
+        Cada publicación aporta contexto histórico, cálculo propio y visualizaciones con atribución a fuentes públicas dominicanas e internacionales.
+      </p>
+
+      <!-- Barra de Filtros por Categoría -->
+      <div class="filtros-categoria-wrapper" role="region" aria-label="Filtro por categoría">
+        <ul class="filtros-lista" id="filtros-lista">
+          {categorias.map((cat) => (
+            <li>
+              <button
+                type="button"
+                class:list={['btn-filtro', { activo: cat.id === 'todos' }]}
+                data-categoria={cat.id}
+                aria-pressed={cat.id === 'todos' ? 'true' : 'false'}
+              >
+                {cat.label}
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="container articulos-listado-container">
+    <div class="articulos-contador" id="articulos-contador" aria-live="polite">
+      Mostrando {articulosOrdenados.length} análisis
+    </div>
+
+    <div class="grid-articulos" id="grid-articulos">
+      {articulosOrdenados.map((articulo) => (
+        <div class="articulo-card-item" data-categoria={articulo.data.categoria}>
+          <TarjetaArticulo articulo={articulo} />
+        </div>
+      ))}
+    </div>
+
+    <!-- Estado vacío accesible -->
+    <div id="estado-vacio" class="estado-vacio" style="display: none;">
+      <p>No se encontraron análisis en esta categoría por el momento.</p>
+      <button type="button" class="btn btn-secondary" id="btn-reset-filtro">
+        Ver todas las categorías
+      </button>
+    </div>
+  </div>
+</BaseLayout>
+
+<script is:inline>
+  (function () {
+    const botones = document.querySelectorAll('.btn-filtro');
+    const items = document.querySelectorAll('.articulo-card-item');
+    const contador = document.getElementById('articulos-contador');
+    const estadoVacio = document.getElementById('estado-vacio');
+    const btnReset = document.getElementById('btn-reset-filtro');
+
+    function aplicarFiltro(categoria) {
+      let visibles = 0;
+
+      items.forEach((item) => {
+        const itemCat = item.getAttribute('data-categoria');
+        if (categoria === 'todos' || itemCat === categoria) {
+          item.style.display = 'block';
+          visibles++;
+        } else {
+          item.style.display = 'none';
+        }
+      });
+
+      botones.forEach((btn) => {
+        const match = btn.getAttribute('data-categoria') === categoria;
+        btn.classList.toggle('activo', match);
+        btn.setAttribute('aria-pressed', match ? 'true' : 'false');
+      });
+
+      if (contador) {
+        contador.textContent = `Mostrando ${visibles} análisis`;
+      }
+
+      if (estadoVacio) {
+        estadoVacio.style.display = visibles === 0 ? 'block' : 'none';
+      }
+
+      // Actualizar URL sin recargar
+      const url = new URL(window.location);
+      if (categoria === 'todos') {
+        url.searchParams.delete('categoria');
+      } else {
+        url.searchParams.set('categoria', categoria);
+      }
+      window.history.replaceState({}, '', url);
+    }
+
+    botones.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const cat = btn.getAttribute('data-categoria') || 'todos';
+        aplicarFiltro(cat);
+      });
+    });
+
+    if (btnReset) {
+      btnReset.addEventListener('click', () => aplicarFiltro('todos'));
+    }
+
+    // Leer parámetro URL si existe
+    const params = new URLSearchParams(window.location.search);
+    const catInicial = params.get('categoria');
+    if (catInicial) {
+      aplicarFiltro(catInicial);
+    }
+  })();
+</script>
+
+<style>
+  .articulos-portada-hero {
+    padding: 3rem 0 2rem;
+    background-color: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .pagina-titulo {
+    font-size: 2.25rem;
+    font-weight: 800;
+    margin: 0.5rem 0 0.75rem;
+    color: var(--color-text);
+    letter-spacing: -0.02em;
+  }
+
+  .pagina-subtitulo {
+    font-size: 1.125rem;
+    color: var(--color-text-muted);
+    max-width: 680px;
+    line-height: 1.55;
+    margin-bottom: 2rem;
+  }
+
+  .filtros-categoria-wrapper {
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+  }
+
+  .filtros-lista {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .btn-filtro {
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-border);
+    color: var(--color-text-muted);
+    padding: 0.4rem 0.85rem;
+    border-radius: var(--radius-md);
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .btn-filtro:hover {
+    color: var(--color-text);
+    border-color: var(--color-accent);
+  }
+
+  .btn-filtro.activo {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+    color: #ffffff;
+  }
+
+  html.dark .btn-filtro.activo {
+    background-color: var(--color-accent);
+    border-color: var(--color-accent);
+    color: #0b0f17;
+  }
+
+  .articulos-listado-container {
+    padding: 2.5rem 1.25rem 4rem;
+  }
+
+  .articulos-contador {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    margin-bottom: 1.5rem;
+  }
+
+  .grid-articulos {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .estado-vacio {
+    text-align: center;
+    padding: 4rem 1rem;
+    background-color: var(--color-surface);
+    border-radius: var(--radius-lg);
+    border: 1px dashed var(--color-border);
+    color: var(--color-text-muted);
+  }
+
+  .estado-vacio p {
+    margin-bottom: 1.25rem;
+    font-size: 1.1rem;
+  }
+</style>

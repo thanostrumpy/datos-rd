@@ -1,0 +1,58 @@
+---
+interface Props {
+  mensaje?: string;
+  fuenteOficialPendiente?: string;
+}
+
+const {
+  mensaje = "DATOS DE EJEMPLO, NO REALES. Este análisis se encuentra en estado de borrador y utiliza datos de demostración para verificar el cálculo y la visualización técnica.",
+  fuenteOficialPendiente = "Banco Central de la República Dominicana (BCRD)",
+} = Astro.props;
+---
+
+<div class="aviso-datos-ejemplo" role="alert" aria-live="polite">
+  <div class="aviso-icono" aria-hidden="true">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+      <line x1="12" y1="9" x2="12" y2="13"/>
+      <line x1="12" y1="17" x2="12.01" y2="17"/>
+    </svg>
+  </div>
+  <div class="aviso-texto">
+    <strong>AVISO EDITORIAL / BORRADOR:</strong> {mensaje}
+    <div class="aviso-meta">
+      Fuente oficial pendiente de confirmación: <strong>{fuenteOficialPendiente}</strong>.
+    </div>
+  </div>
+</div>
+
+<style>
+  .aviso-datos-ejemplo {
+    display: flex;
+    gap: 0.875rem;
+    align-items: flex-start;
+    padding: 1rem 1.25rem;
+    margin: 1.5rem 0;
+    border-radius: var(--radius-md);
+    background-color: var(--color-warning-bg);
+    border: 1px solid var(--color-warning);
+    color: var(--color-text);
+  }
+
+  .aviso-icono {
+    color: var(--color-warning);
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+  }
+
+  .aviso-texto {
+    font-size: 0.9375rem;
+    line-height: 1.5;
+  }
+
+  .aviso-meta {
+    margin-top: 0.35rem;
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+  }
+</style>
